@@ -21,10 +21,12 @@
 }
 .movie h2 {
 	color: white;
+	background-color: #0971B2;
 	font-weight: 900;
 }
 .movie h4 {
 	color: white;
+	background-color: #0971B2;
 	font-weight: 900;
 	letter-spacing: 1px;
 }

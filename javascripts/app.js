@@ -51,9 +51,11 @@
 					var totalAges = 0;
 					angular.forEach(movie.cast, function(person) {
 						getData('person/' + person.id).success(function(data) {
-							var age = calculateAge(data.birthday);
-							totalAges += age;
-							movie.avgAge = ~~(totalAges / movie.cast.length);
+							if (data.birthday) {
+								var age = calculateAge(data.birthday);
+								totalAges += age;
+								movie.avgAge = ~~(totalAges / movie.cast.length);
+							}
 						})
 					});
 				}).error(function(error) {
