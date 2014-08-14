@@ -119,14 +119,6 @@
 
 		loadConfiguration();
 
-		// helpers
-
-		$scope.hasAge = function() {
-			return function(movie) {
-				return movie.avgAge > 0
-			}
-		};
-
 	}])
 
 })(window)
