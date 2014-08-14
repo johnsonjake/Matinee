@@ -1,0 +1,51 @@
+<!doctype html>
+<html ng-app="Matinee">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Matinee by johnsonjake</title>
+
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/example.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body ng-cloak ng-controller="MainCtrl as ctrl">
+    <div class="wrapper">
+      <header>
+        <h1><a href="/">{{ ctrl.title }}</a></h1>
+        <p>Average age of actors in currently showing movies.</p>
+
+        <p class="view"><a href="https://github.com/johnsonjake/Matinee">View the Project on GitHub <small>johnsonjake/Matinee</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/johnsonjake/Matinee/zipball/gh-pages">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/johnsonjake/Matinee/tarball/gh-pages">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/johnsonjake/Matinee/tree/gh-pages">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>
+<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Matinee Example</h3>
+
+	<div class="row">
+		<div class="col-md-6 col-sm-4 mb" ng-repeat="movie in movies track by $index">
+			<div class="movie pn" back-img="{{ baseImageURL }}{{ movie.poster_path }}">
+				<i class="fa fa-film fa-4x"></i>
+				<h2>{{ movie.avgAge }}</h2>
+				<h4>{{ movie.title }}</h4>
+			</div>
+		</div>
+	</div>
+    </div>
+    <script src="../javascripts/scale.fix.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.min.js"></script>
+    <script type="text/javascript" src="../javascripts/app.js"></script>
+  </body>
+</html>
