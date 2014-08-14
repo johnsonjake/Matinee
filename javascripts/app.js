@@ -6,27 +6,44 @@
 	.directive('backImg', function(){
 		return function(scope, element, attrs){
 		    var url = attrs.backImg;
-        	element.css({
-            	'background': 'url(' + url +') no-repeat center top'
-	        });
+		    if (url) {
+		    	element.css({
+            		'background': 'url(' + url +') no-repeat center top'
+	        	});
+		    }
 		};
 	})
-	.controller('MainCtrl', ['$scope', '$log', '$http', function($scope, $log, $http) {
+	.directive('infiniteScroll', function() {
+		return function(scope, element, attrs){
+			var raw = element[0];
+
+			element.bind('scroll', function() {
+				if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
+					scope.$apply(attr.infiniteScroll);
+				}
+			});
+		};
+	})
+	.service('movieService', ['$http', function($http) {
+		var apiBaseURL = '//api.themoviedb.org/3/';
+		var apiKey = '?api_key=9a29077a49eefb6a7f081a3e86818d13';
+
+		this.getData = function(endPoint, params) {
+			var params = params || "";
+			return $http.get(apiBaseURL + endPoint + apiKey + '&' + params);
+		}
+	}])
+	.controller('MainCtrl', ['$scope', '$log', 'movieService', function($scope, $log, movieService) {
 		var self = this;
 		self.title = 'Matinee';
 
-		var apiBaseURL = '//api.themoviedb.org/3/';
-		var apiKey = '?api_key=9a29077a49eefb6a7f081a3e86818d13';
+		self.page = 1;
+		self.maxPage = 1;
 
 		var conf = {};
 		$scope.error;
 		$scope.movies = [];
 		$scope.baseImageURL;
-
-		function getData(endPoint, params) {
-			var params = params || "";
-			return $http.get(apiBaseURL + endPoint + apiKey + '&' + params)
-		};
 
 		function calculateAge(dateString) {
 			if (dateString) {
@@ -45,7 +62,7 @@
 
 		var loadCast = function(movies) {
 			angular.forEach(movies, function(movie) {
-				var castData = getData('movie/' + movie.id + '/credits')
+				var castData = movieService.getData('movie/' + movie.id + '/credits')
 				.success(function(data) {
 					movie.cast = data.cast
 					.filter(function(c) { return c.character; }); // only characters in the movie
@@ -53,7 +70,7 @@
 					var totalAges = 0;
 					var totalCastWithAge = 0; // keep track of how many birthdays we can actually use for the average
 					angular.forEach(movie.cast, function(person) {
-						getData('person/' + person.id).success(function(data) {
+						movieService.getData('person/' + person.id).success(function(data) {
 							if (data.birthday) {
 								var age = calculateAge(data.birthday);
 								if (age > 0) totalCastWithAge++; 
@@ -70,10 +87,11 @@
 		};
 
 		var loadMovies = function() {
-			var movieData = getData('movie/now_playing');
+			var page = 'page=' + self.page;
+			var movieData = movieService.getData('movie/now_playing', page);
 			movieData.success(function(data) {
-				$scope.movies = data.results
-				.filter(function(m) {return m.poster_path});
+				$scope.movies = data.results;
+				self.maxPage = data.total_pages;
 				loadCast($scope.movies);
 			}).error(function(error) {
 				$log.warn(error);
@@ -81,8 +99,14 @@
 			});
 		};
 
+		$scope.next = function() {
+			self.page++;
+			loadMovies();
+			window.scrollTo(0, 0);
+		};
+
 		var loadConfiguration = function() {
-			var configuration = getData('configuration');
+			var configuration = movieService.getData('configuration');
 			configuration.success(function(data) {
 				conf = data;
 				$scope.baseImageURL = conf.images.base_url + conf.images.poster_sizes[3] + '/';
@@ -99,10 +123,9 @@
 
 		$scope.hasAge = function() {
 			return function(movie) {
-				$log.info(movie);
 				return movie.avgAge > 0
 			}
-		}
+		};
 
 	}])
 

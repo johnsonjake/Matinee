@@ -34,14 +34,15 @@
 <a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Matinee Example</h3>
 
 	<div class="row">
-		<div class="col-md-6 col-sm-4 mb" ng-repeat="movie in movies | filter:hasAge()">
+		<div class="col-md-6 col-sm-4 mb" ng-repeat="movie in movies">
 			<div class="movie pn" back-img="{{ baseImageURL }}{{ movie.poster_path }}">
 				<i class="fa"></i>
-				<h2>{{ movie.avgAge }}</h2>
+				<h2>{{ movie.avgAge || 'no age data'}}</h2>
 				<h4>{{ movie.title }}</h4>
 			</div>
 		</div>
 	</div>
+  <span class="pull-right"><button type="button" class="btn btn-primary" ng-click="next()" ng-disabled="ctrl.page === ctrl.maxPage">next {{ ctrl.page }} / {{ ctrl.maxPage }}</button></span>
     </div>
     <script src="../javascripts/scale.fix.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.min.js"></script>
