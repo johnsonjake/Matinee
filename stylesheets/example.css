@@ -28,3 +28,7 @@
 	font-weight: 900;
 	letter-spacing: 1px;
 }
+.fa {
+	display: inline-block;
+	line-height: 1;
+}
