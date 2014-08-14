@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -47,7 +48,7 @@ $ git checkout gh-pages
   <a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example
 </h3>
 
-<p>Click <a href="/Matinee/example">here</a> to see it in use.</p>
+<p>Click <a id="relativeLink" href="/example">here</a> to see it in use.</p>
 
 <h3>
 <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
@@ -60,5 +61,14 @@ $ git checkout gh-pages
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
+    <script type="text/javascript">
+        var host = window.location.hostname;
+        if (host !== 'localhost') {
+          var a = document.getElementById('relativeLink');
+          var oldHref = a.href.split('/');
+          oldHref.splice(3, 0, "Matinee");
+          a.href = oldHref.join('/');
+        }
+    </script>
   </body>
 </html>

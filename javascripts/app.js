@@ -23,8 +23,9 @@
 		$scope.movies = [];
 		$scope.baseImageURL;
 
-		function getData(endPoint) {
-			return $http.get(apiBaseURL + endPoint + apiKey)
+		function getData(endPoint, params) {
+			var params = params || "";
+			return $http.get(apiBaseURL + endPoint + apiKey + '&' + params)
 		};
 
 		function calculateAge(dateString) {
@@ -48,13 +49,16 @@
 				.success(function(data) {
 					movie.cast = data.cast
 					.filter(function(c) { return c.character; }); // only characters in the movie
+					movie.avgAge = 0;
 					var totalAges = 0;
+					var totalCastWithAge = 0; // keep track of how many birthdays we can actually use for the average
 					angular.forEach(movie.cast, function(person) {
 						getData('person/' + person.id).success(function(data) {
 							if (data.birthday) {
 								var age = calculateAge(data.birthday);
+								if (age > 0) totalCastWithAge++; 
 								totalAges += age;
-								movie.avgAge = ~~(totalAges / movie.cast.length);
+								movie.avgAge = ~~(totalAges / totalCastWithAge);
 							}
 						})
 					});
@@ -90,6 +94,15 @@
 		};
 
 		loadConfiguration();
+
+		// helpers
+
+		$scope.hasAge = function() {
+			return function(movie) {
+				$log.info(movie);
+				return movie.avgAge > 0
+			}
+		}
 
 	}])
 

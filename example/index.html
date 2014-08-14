@@ -34,7 +34,7 @@
 <a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Matinee Example</h3>
 
 	<div class="row">
-		<div class="col-md-6 col-sm-4 mb" ng-repeat="movie in movies track by $index">
+		<div class="col-md-6 col-sm-4 mb" ng-repeat="movie in movies | filter:hasAge()">
 			<div class="movie pn" back-img="{{ baseImageURL }}{{ movie.poster_path }}">
 				<i class="fa"></i>
 				<h2>{{ movie.avgAge }}</h2>
