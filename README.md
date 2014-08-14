@@ -1,7 +1,7 @@
 Matinee
 =========
 
-This app pulls data of currently playing movies form [the movie db] and displays the average age of the cast. You can run this locally by doing: 
+This app pulls data of currently playing movies form [the movie db] and displays the average age of the cast.: 
 
 Version
 ----
