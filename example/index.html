@@ -35,14 +35,14 @@
 
 	<div class="row">
 		<div class="col-md-6 col-sm-4 mb" ng-repeat="movie in movies">
-			<div class="movie pn" back-img="{{ baseImageURL }}{{ movie.poster_path }}">
+			<div class="movie pn" back-img="{{ baseImageURL }}{{ movie.poster_path || movie.backdrop_path}}">
 				<i class="fa"></i>
 				<h2>{{ movie.avgAge || 'no age data'}}</h2>
 				<h4>{{ movie.title }}</h4>
 			</div>
 		</div>
 	</div>
-  <span class="pull-right"><button type="button" class="btn btn-primary" ng-click="next()" ng-disabled="ctrl.page === ctrl.maxPage">next {{ ctrl.page }} / {{ ctrl.maxPage }}</button></span>
+  <span class="pull-right"><button type="button" ng-click="next()" ng-disabled="ctrl.page === ctrl.maxPage">next {{ ctrl.page }} / {{ ctrl.maxPage }}</button></span>
     </div>
     <script src="../javascripts/scale.fix.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.min.js"></script>
