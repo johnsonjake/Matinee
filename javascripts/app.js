@@ -62,10 +62,9 @@
 
 		var loadCast = function(movies) {
 			angular.forEach(movies, function(movie) {
-				var castData = movieService.getData('movie/' + movie.id + '/credits')
+				movieService.getData('movie/' + movie.id + '/credits')
 				.success(function(data) {
-					movie.cast = data.cast
-					.filter(function(c) { return c.character; }); // only characters in the movie
+					movie.cast = data.cast;
 					movie.avgAge = 0;
 					var totalAges = 0;
 					var totalCastWithAge = 0; // keep track of how many birthdays we can actually use for the average
